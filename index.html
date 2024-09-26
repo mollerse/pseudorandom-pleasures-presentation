@@ -12,122 +12,145 @@
       rel="icon"
       type="image/x-icon"
     />
-    <title>pseudorandom-pleasures-presentation</title>
+    <title>Pseudorandom Pleasures</title>
 
     <style>
       @import url("/node_modules/reveal.js/dist/reveal.css");
-@import url("/node_modules/reveal.js/dist/theme/night.css");
-/* Highlight.js styling */
-@import url("/lib/darcula.css");
+      @import url("/node_modules/reveal.js/dist/theme/night.css");
+      /* Highlight.js styling */
+      @import url("/lib/darcula.css");
 
-* {
-  box-sizing: border-box;
-}
+      * {
+        box-sizing: border-box;
+      }
 
-body {
-  aspect-ratio: 16/9;
-}
+      body {
+        aspect-ratio: 16/9;
+      }
 
-/* Reveal.js styles */
-:root {
-  --background-color: #050505;
-  --main-color: #ebebeb;
-  --accent-color: hotpink;
-  --main-font: "DejaVu Sans", Helvetica, sans-serif;
-  --font-weight: 300;
-  --font-size: 3em;
-  --r-main-font-size: var(--font-size);
-  --r-background-color: var(--background-color);
-  --r-main-font: var(--main-font);
-  --r-main-color: var(--main-color);
-  --r-heading-font: var(--main-font);
-  --r-heading-color: var(--main-color);
-  --r-heading-font-weight: var(--font-weight);
-  --r-link-color: var(--accent-color);
-  --r-link-color-hover: var(--accent-color);
-  --r-heading-text-transform: uppercase;
-}
+      /* Reveal.js styles */
+      :root {
+        --background-color: #050505;
+        --main-color: #ebebeb;
+        --accent-color: hotpink;
+        --main-font: "DejaVu Sans", Helvetica, sans-serif;
+        --font-weight: 300;
+        --font-size: 3em;
+        --r-main-font-size: var(--font-size);
+        --r-background-color: var(--background-color);
+        --r-main-font: var(--main-font);
+        --r-main-color: var(--main-color);
+        --r-heading-font: var(--main-font);
+        --r-heading-color: var(--main-color);
+        --r-heading-font-weight: var(--font-weight);
+        --r-link-color: var(--accent-color);
+        --r-link-color-hover: var(--accent-color);
+        --r-heading-text-transform: uppercase;
+      }
 
-p {
-  font-weight: var(--font-weight);
-}
+      p {
+        font-weight: var(--font-weight);
+      }
 
-/* Other styles */
+      /* Other styles */
 
-.slides>section {
-  height: 100%;
-  width: 100%;
-  padding: 2.5%;
-}
+      .slides > section {
+        height: 100%;
+        width: 100%;
+        padding: 2.5%;
+      }
 
-.center {
-  flex-direction: column;
-  justify-content: center;
-}
+      .center {
+        flex-direction: column;
+        justify-content: center;
+      }
 
-.center p {
-  margin: 0;
-  line-height: 1.5;
-}
+      .center p {
+        margin: 0;
+        line-height: 1.5;
+      }
 
-.center .small {
-  font-size: 75%;
-}
+      .center .small {
+        font-size: 50%;
+      }
 
-.standard {
-  flex-direction: column;
-  justify-content: left;
-  text-align: left;
-}
+      .center h1 {
+        margin-bottom: 0;
+      }
 
-.standard h2 {}
+      .center .subtitle {
+        margin-bottom: 20px;
+      }
 
-.standard>div {
-  flex-grow: 1;
-  padding: 2.5%;
-  padding-top: 0;
-}
+      .standard {
+        flex-direction: column;
+        justify-content: left;
+        text-align: left;
+      }
 
-.standard p {
-  margin: 1em 0;
-  max-width: 80%;
-}
+      .standard h2 {
+      }
 
-.standard sup {
-  font-size: 50%;
-}
+      .standard > div {
+        flex-grow: 1;
+        padding: 2.5%;
+        padding-top: 0;
+      }
 
-.standard p.small {
-  font-size: 50%;
-}
+      .standard p {
+        margin: 1em 0;
+        max-width: 80%;
+      }
 
-.standard p.smaller {
-  font-size: 35%;
-}
+      .standard sup {
+        font-size: 50%;
+      }
 
-.standard pre {
-  width: 100% !important;
-}
+      .standard p.small {
+        font-size: 50%;
+      }
 
-.standard p:has(+ pre) {
-  position: absolute;
-  font-family: var(--r-code-font);
-  right: 5.5%;
-  margin: 0;
-  z-index: 1;
-}
+      .standard p.smaller {
+        font-size: 35%;
+      }
 
-.standard p+pre {
-  margin-top: 0;
-}
+      .standard pre {
+        width: 100% !important;
+      }
 
-.standard pre code {
-  max-height: none;
-}
+      .standard p:has(+ pre) {
+        position: absolute;
+        font-family: var(--r-code-font);
+        right: 5.5%;
+        margin: 0;
+        z-index: 1;
+      }
 
-.standard .no-margin-bottom {
-  margin-bottom: 0 !important;
-}
+      .standard p + pre {
+        margin-top: 0;
+      }
+
+      .standard pre code {
+        max-height: none;
+      }
+
+      .standard .no-margin-bottom {
+        margin-bottom: 0 !important;
+      }
+
+      .standard .no-margin {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+      }
+
+      .demo canvas-slide,
+      .demo canvas {
+        width: 100%;
+      }
+
+      .dg.ac {
+        z-index: 1 !important;
+      }
     </style>
   </head>
   <body>
@@ -135,9 +158,147 @@ p {
       <div class="slides">
         <!-- Intro -->
         <section class="center">
-          <h1>__name__</h1>
+          <h1>Pseudorandom Pleasures</h1>
+          <p class="subtitle">— eller hvordan temme tilfeldighet</p>
           <p class="small">Stian Veum Møllersen / @mollerse</p>
-          <p class="small">at</p>
+          <p class="small">Fagklynge Utviklings Minikonferanse 2024</p>
+        </section>
+        <section class="standard">
+          <h2>Generative Systemer</h2>
+          <div>
+            <p>
+              Generative systemer er konstruksjoner som produserer et resultat basert på et sett med
+              regler.
+            </p>
+            <p class="fragment">
+              Kombinatoriske eksplosjoner gir kompleks og utforutsigbar output, selv med relativt
+              enkle regler.
+            </p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Generativ Grafikk</h2>
+          <div>
+            <p>Generativ grafikk, eller «procedural graphics», er en type generativt system.</p>
+            <p class="fragment">Brukes i alt fra spill, film og grafikk til 3D-printing og lyd.</p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="randomline"></canvas-slide>
+        </section>
+        <section class="standard">
+          <h2>Tilfeldighet</h2>
+          <div>
+            <p>
+              En fin måte å oppnå kombinatorisk eksplosjon. Mulige utfall av et generativt system
+              basert på tilfeldighet er tilnærmet uendelig.
+            </p>
+            <p class="fragment">Det er bare et problem.</p>
+          </div>
+        </section>
+        <section class="center">
+          <div>
+            <p>Menesker liker generelt ikke ting som er helt tilfeldige.</p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="randomline"></canvas-slide>
+        </section>
+        <section class="standard">
+          <h2>Pseudorandom</h2>
+          <div>
+            <p>
+              Det finnes spesialkonstruerte funksjoner for å generere visuelt behagelig, men likevel
+              tilfeldig støy: Pseudorandom Number Generators (PRNG).
+            </p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="simplex"></canvas-slide>
+        </section>
+        <section class="standard">
+          <h2>Ken Perlin</h2>
+          <div>
+            <p>
+              Opphavsmannen til den mest kjente metoden for pseudorandom innen grafikk: Perlin
+              Noise.
+            </p>
+            <p class="fragment">
+              Oppfunnet i 1982 til bruk i filmen Tron, som han også vant en Technical Achievement
+              Oscar for i 1997.
+            </p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Simplex Noise</h2>
+          <div>
+            <p>
+              Arvtageren til Perlin Noise. Samme prinsipp, bare kjappere og med færre visuelle
+              artefakter.
+            </p>
+            <p class="fragment">Oppfunnet i 2001 av Ken Perlin.</p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="simplex"></canvas-slide>
+        </section>
+        <section class="standard">
+          <h2>Gradient Noise</h2>
+          <div>
+            <p>Prinsippet bak Perlin og Simplex noise kalles gjerne gradient noise.</p>
+            <p class="fragment">Generaliserer utrolig bra til flere dimensjoner.</p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="2d"></canvas-slide>
+        </section>
+        <section class="standard">
+          <h2>Egenskaper</h2>
+          <div>
+            <p>
+              Dette kan brukes til utrolig mange ting. Fordi vi får verdier i
+              <code>[-1, 1]</code> kan det mappes til nesten hva som helst.
+            </p>
+            <p class="fragment">
+              Og fordi verdiene er kontinuerlige kan vi låne en haug med triks fra additiv syntese.
+            </p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="simplexoctaves"></canvas-slide>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="simplexoctaves2d"></canvas-slide>
+        </section>
+        <section class="standard">
+          <h2>Eksperiment</h2>
+          <div>
+            <p>
+              Siden vi har en måte å lage gøyale linjer, så burde vi jo gjøre noe kreativt med dem.
+            </p>
+            <p class="fragment no-margin">Noe enkelt →</p>
+            <p class="fragment no-margin">Parametriser →</p>
+            <p class="fragment no-margin">Multipliser →</p>
+            <p class="fragment no-margin">Animer</p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="joydivision"></canvas-slide>
+        </section>
+        <section class="center">
+          <h2>Fin.</h2>
+          <div>
+            <p>Takk for at dere hørte på</p>
+            <br />
+            <p class="small">Stian Veum Møllersen / @mollerse</p>
+            <p class="small">
+              slides:
+              <a
+                href="https://mollerse.github.io/programming-minimalism-presentation/dist/devfestcph2024/index.html"
+                >github/mollerse/pseudorandom-pleasures-presentation</a
+              >
+            </p>
+          </div>
         </section>
       </div>
     </div>
