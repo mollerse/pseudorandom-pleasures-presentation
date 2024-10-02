@@ -1,5 +1,7 @@
+import type midiControl from "@mollerse/midi-control";
+
 type CanvasDemo = {
-  start: () => void;
+  start: (canvas: HTMLCanvasElement, controls: Awaited<ReturnType<typeof midiControl>>) => void;
   stop: () => void;
 };
 
@@ -10,3 +12,5 @@ type AvailableDemo =
   | "simplex"
   | "simplexoctaves"
   | "simplexoctaves2d";
+
+export { CanvasDemo, AvailableDemo };

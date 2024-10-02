@@ -1,46 +1,116 @@
-import { BLACK, WHITE } from "./util/colors";
 import { createNoise2D } from "simplex-noise";
+import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 
-let WIDTH, HEIGHT;
+import { BLACK, WHITE } from "./util/colors.js";
+
+/** @type {number} */
+let WIDTH;
+/** @type {number} */
+let HEIGHT;
 const NAME = "Simplex";
 
 let noise2d = createNoise2D();
 
-let c, ctx, data;
+/** @type {MidiControl.MidiControl} */
+let c;
+/** @type {CanvasRenderingContext2D} */
+let ctx;
+/** @type {number[][]} */
+let data;
 let off = 0;
 
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {MidiControl.MidiControl} controls
+ */
 function init(canvas, controls) {
   WIDTH = canvas.width;
   HEIGHT = canvas.height;
   initControls(controls);
   initData();
 
-  ctx = canvas.getContext("2d");
+  ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext("2d"));
 }
 
+/**
+ * @param {MidiControl.MidiControl} controls
+ */
 function initControls(controls) {
   c = controls;
   try {
-    c.loadScheme(NAME);
+    c.activateBinding(NAME);
   } catch (e) {
-    c.addScheme(NAME)
-      .addNumberValue("numDots", [35, 5, 250], {
+    c.createBinding(NAME);
+
+    c.addNumberValue(
+      "numDots",
+      { initial: 35, min: 5, max: 250, step: 1 },
+      {
+        keyId: KNOBS[1][1],
+        messageType: MESSAGES[TEMPLATES.user].knob,
         onChange: initData,
-        triggerId: 21,
-      })
-      .addNumberValue("samplerate", [0.002, 0.001, 0.01, 0.0001], {
-        onChange: initData,
-        triggerId: 22,
-      })
-      .addNumberValue("xoff", [0, 0, 2500, 10], {
-        onChange: initData,
-        triggerId: 23,
-      })
-      .addNumberValue("yoff", [0, 0, 1, 0.001], { triggerId: 42, onChange: initData })
-      .addNumberValue("thickness", [5, 0.5, 50, 0.5], { triggerId: 41 })
-      .addBooleanValue("line", [true], { triggerId: 9 })
-      .addBooleanValue("regen", [false], { triggerId: 10, onChange: randomize })
-      .addBooleanValue("move", [false], { triggerId: 11 });
+      },
+    )
+      .addNumberValue(
+        "samplerate",
+        { initial: 0.002, min: 0.001, max: 0.01, step: 0.0001 },
+        {
+          keyId: KNOBS[1][2],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      )
+      .addNumberValue(
+        "xoff",
+        { initial: 0, min: 0, max: 2500, step: 10 },
+        {
+          keyId: KNOBS[1][3],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      )
+      .addNumberValue(
+        "thickness",
+        { initial: 5, min: 0.5, max: 50, step: 0.5 },
+        {
+          keyId: KNOBS[2][1],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+        },
+      )
+      .addNumberValue(
+        "yoff",
+        { initial: 0, min: 0, max: 1, step: 0.001 },
+        {
+          keyId: KNOBS[2][2],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      )
+      .addBooleanValue(
+        "line",
+        { initial: true },
+        {
+          keyId: PADS[1],
+          messageType: MESSAGES[TEMPLATES.user].padOff,
+        },
+      )
+      .addBooleanValue(
+        "regen",
+        { initial: false },
+        {
+          keyId: PADS[2],
+          messageType: MESSAGES[TEMPLATES.user].padOff,
+          onChange: randomize,
+        },
+      )
+      .addBooleanValue(
+        "move",
+        { initial: false },
+        {
+          keyId: PADS[3],
+          messageType: MESSAGES[TEMPLATES.user].padOff,
+        },
+      );
   }
 }
 
@@ -50,34 +120,36 @@ function randomize() {
 }
 
 function initData() {
-  let n = c.getValue("numDots");
-  let z = c.getValue("samplerate");
-  let xoff = c.getValue("xoff");
+  let n = c.getNumberValue("numDots");
+  let z = c.getNumberValue("samplerate");
+  let xoff = c.getNumberValue("xoff");
   data = [];
 
-  if (c.getValue("move")) {
+  if (c.getBooleanValue("move")) {
     xoff += off;
   }
 
   for (let i = 0; i < WIDTH; i++) {
-    let noise = noise2d(z * (i + xoff), c.getValue("yoff"));
+    let noise = noise2d(z * (i + xoff), c.getNumberValue("yoff"));
     if (i % Math.floor(WIDTH / n) === 0) {
       data.push([i, HEIGHT / 2 + noise * (HEIGHT / 4)]);
     }
   }
 }
 
-let rafID = null;
+/** @type {number} */
+let rafID;
+
 let t0 = 0;
-function render(t) {
+function render(t = 0) {
   // FPS clamp
   let deltaT = t - t0;
   rafID = requestAnimationFrame(render);
-  if (t0 && delta < 33) {
+  if (t0 && deltaT < 33) {
     return;
   }
 
-  if (c.getValue("move")) {
+  if (c.getBooleanValue("move")) {
     initData();
   }
 
@@ -89,11 +161,11 @@ function render(t) {
   ctx.strokeStyle = WHITE;
   ctx.fillStyle = WHITE;
 
-  let w = c.getValue("thickness");
+  let w = c.getNumberValue("thickness");
 
   ctx.lineWidth = w;
 
-  if (c.getValue("line")) {
+  if (c.getNumberValue("line")) {
     ctx.beginPath();
     ctx.moveTo(0, HEIGHT / 2);
     data.slice(0, -2).forEach(([x, y], i) => {
@@ -115,11 +187,15 @@ function render(t) {
   }
 
   ctx.restore();
-  if (c.getValue("move")) {
+  if (c.getBooleanValue("move")) {
     off += 10;
   }
 }
 
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {MidiControl.MidiControl} controls
+ */
 function start(canvas, controls) {
   init(canvas, controls);
   render();
@@ -127,7 +203,7 @@ function start(canvas, controls) {
 
 function stop() {
   cancelAnimationFrame(rafID);
-  c.unloadScheme(NAME);
+  c.deactivateBinding(NAME);
 }
 
 export default { start, stop };

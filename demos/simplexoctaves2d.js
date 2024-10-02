@@ -1,8 +1,13 @@
-import { BLACK, WHITE } from "./util/colors";
 import { createNoise3D } from "simplex-noise";
-import { normalize } from "./util/tools";
+import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 
-let WIDTH, HEIGHT;
+import { BLACK, WHITE } from "./util/colors.js";
+import { normalize } from "./util/tools.js";
+
+/** @type {number} */
+let WIDTH;
+/** @type {number} */
+let HEIGHT;
 const NAME = "Simplex Octaves 2D";
 
 const N = 100;
@@ -10,48 +15,91 @@ const M = 100;
 
 let noise3d = createNoise3D();
 
-let c, ctx, data, octaves;
-let off = 0;
+/** @type {MidiControl.MidiControl} */
+let c;
+/** @type {CanvasRenderingContext2D} */
+let ctx;
+/** @type {number[]} */
+let data;
+/** @type {number[][]} */
+let octaves;
 
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {MidiControl.MidiControl} controls
+ */
 function init(canvas, controls) {
   WIDTH = canvas.width;
   HEIGHT = canvas.height;
   initControls(controls);
   initData();
 
-  ctx = canvas.getContext("2d");
+  ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext("2d"));
 }
 
+/**
+ * @param {MidiControl.MidiControl} controls
+ */
 function initControls(controls) {
   c = controls;
   try {
-    c.loadScheme(NAME);
-  } catch (e) {
-    c.addScheme(NAME)
-      .addNumberValue("octaves", [1, 1, 6], {
+    c.activateBinding(NAME);
+  } catch {
+    c.createBinding(NAME);
+    c.addNumberValue(
+      "octaves",
+      { initial: 1, min: 1, max: 6, step: 1 },
+      {
+        keyId: KNOBS[1][1],
+        messageType: MESSAGES[TEMPLATES.user].knob,
         onChange: initData,
-        triggerId: 21,
-      })
-      .addNumberValue("regen", [true], {
-        onChange: randomize,
-        triggerId: 9,
-      })
-      .addNumberValue("ampInit", [1, 1, 10, 0.01], {
-        onChange: initData,
-        triggerId: 22,
-      })
-      .addNumberValue("hzInit", [4, 1, 8, 1], {
-        onChange: initData,
-        triggerId: 23,
-      })
-      .addNumberValue("ampFalloff", [2, 1, 6, 0.1], {
-        onChange: initData,
-        triggerId: 42,
-      })
-      .addNumberValue("hzIncrease", [2, 1, 6, 0.1], {
-        onChange: initData,
-        triggerId: 43,
-      });
+      },
+    )
+      .addBooleanValue(
+        "regen",
+        { initial: true },
+        {
+          keyId: PADS[1],
+          messageType: MESSAGES[TEMPLATES.user].padOff,
+          onChange: randomize,
+        },
+      )
+      .addNumberValue(
+        "ampInit",
+        { initial: 1, min: 1, max: 10, step: 0.01 },
+        {
+          keyId: KNOBS[1][2],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      )
+      .addNumberValue(
+        "hzInit",
+        { initial: 4, min: 1, max: 8, step: 1 },
+        {
+          keyId: KNOBS[1][3],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      )
+      .addNumberValue(
+        "ampFalloff",
+        { initial: 2, min: 1, max: 6, step: 0.1 },
+        {
+          keyId: KNOBS[2][2],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      )
+      .addNumberValue(
+        "hzIncrease",
+        { initial: 2, min: 1, max: 6, step: 0.1 },
+        {
+          keyId: KNOBS[2][3],
+          messageType: MESSAGES[TEMPLATES.user].knob,
+          onChange: initData,
+        },
+      );
   }
 }
 
@@ -61,14 +109,14 @@ function randomize() {
 }
 
 function initData() {
-  let num = c.getValue("octaves");
+  let num = c.getNumberValue("octaves");
   octaves = Array(num)
     .fill(1)
     .map(() => Array(N * M));
   data = Array(N * M).fill(0);
   let z = 0.01;
-  let hz = c.getValue("hzInit");
-  let amp = c.getValue("ampInit");
+  let hz = c.getNumberValue("hzInit");
+  let amp = c.getNumberValue("ampInit");
 
   for (let o = 1; o < num + 1; o++) {
     for (let i = 0; i < N; i++) {
@@ -79,11 +127,14 @@ function initData() {
       }
     }
 
-    hz = hz * c.getValue("hzIncrease");
-    amp = amp / c.getValue("ampFalloff");
+    hz = hz * c.getNumberValue("hzIncrease");
+    amp = amp / c.getNumberValue("ampFalloff");
   }
 }
 
+/**
+ * @param {number} m
+ */
 function drawConstituentSimplex(m) {
   ctx.save();
   ctx.scale(0.15, 0.15);
@@ -128,13 +179,14 @@ function drawMainSimplex() {
   ctx.restore();
 }
 
-let rafID = null;
+/** @type {number} */
+let rafID;
 let t0 = 0;
-function render(t) {
+function render(t = 0) {
   // FPS clamp
   let deltaT = t - t0;
   rafID = requestAnimationFrame(render);
-  if (t0 && delta < 33) {
+  if (t0 && deltaT < 33) {
     return;
   }
 
@@ -160,6 +212,10 @@ function render(t) {
   ctx.restore();
 }
 
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {MidiControl.MidiControl} controls
+ */
 function start(canvas, controls) {
   init(canvas, controls);
   render();
@@ -167,7 +223,7 @@ function start(canvas, controls) {
 
 function stop() {
   cancelAnimationFrame(rafID);
-  c.unloadScheme(NAME);
+  c.deactivateBinding(NAME);
 }
 
 export default { start, stop };

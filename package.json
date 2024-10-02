@@ -14,14 +14,14 @@
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
   "license": "CC-BY-NC-SA-4.0",
   "dependencies": {
-    "@mollerse/midi-control": "^1.4.1",
+    "@mollerse/midi-control": "^2.2.0",
     "alea": "^1.0.1",
-    "dat.gui": "^0.7.9",
     "reveal.js": "5.1.0",
     "simplex-noise": "^4.0.3"
   },
   "devDependencies": {
     "@eslint/js": "9.11.1",
+    "@types/reveal.js": "^5.0.3",
     "eslint": "9.11.1",
     "globals": "15.9.0",
     "prettier": "3.3.3",

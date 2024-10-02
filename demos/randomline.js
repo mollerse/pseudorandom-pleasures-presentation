@@ -1,44 +1,81 @@
-import { BLACK, WHITE } from "./util/colors";
-import { random2 } from "./util/random";
+import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 
-let WIDTH, HEIGHT;
+import { BLACK, WHITE } from "./util/colors.js";
+import { random2 } from "./util/random.js";
+
+/** @type {number} */
+let WIDTH;
+/** @type {number} */
+let HEIGHT;
 const NAME = "Random Line";
 
-let ctx, data, c;
+/** @type {MidiControl.MidiControl} */
+let c;
+/** @type {CanvasRenderingContext2D} */
+let ctx;
+/** @type {number[][]} */
+let data;
 
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {MidiControl.MidiControl} controls
+ */
 function init(canvas, controls) {
   WIDTH = canvas.width;
   HEIGHT = canvas.height;
   initControls(controls);
   initData();
 
-  ctx = canvas.getContext("2d");
+  ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext("2d"));
 }
 
+/**
+ * @param {MidiControl.MidiControl} controls
+ */
 function initControls(controls) {
   c = controls;
   try {
-    c.loadScheme(NAME);
-  } catch (e) {
-    c.addScheme(NAME)
-      .addNumberValue("dots", [5, 2, 100], {
+    c.activateBinding(NAME);
+  } catch {
+    c.createBinding(NAME);
+
+    c.addNumberValue(
+      "dots",
+      { initial: 5, min: 2, max: 100, step: 1 },
+      {
+        keyId: KNOBS[1][1],
+        messageType: MESSAGES[TEMPLATES.user].knob,
         onChange: initData,
-        triggerId: 21,
-      })
-      .addBooleanValue("line", [true], { triggerId: 9 })
-      .addBooleanValue("regen", [false], { triggerId: 10, onChange: initData })
-      .addNumberValue("thickness", [1, 1, 50, 1], { triggerId: 41 });
+      },
+    )
+      .addBooleanValue(
+        "line",
+        { initial: true },
+        { keyId: PADS[1], messageType: MESSAGES[TEMPLATES.user].padOff },
+      )
+      .addBooleanValue(
+        "regen",
+        { initial: false },
+        { keyId: PADS[2], messageType: MESSAGES[TEMPLATES.user].padOff, onChange: initData },
+      )
+      .addNumberValue(
+        "thickness",
+        { initial: 1, min: 1, max: 50, step: 1 },
+        { keyId: KNOBS[2][1], messageType: MESSAGES[TEMPLATES.user].knob },
+      );
   }
 }
 
 function initData() {
-  let n = c.getValue("dots");
+  let n = c.getNumberValue("dots");
   data = Array(n)
     .fill(1)
     .map((_, i) => [(i + 1) * (WIDTH / n), HEIGHT / 2 + random2(-HEIGHT / 2, HEIGHT / 2)]);
 }
 
-let rafID = null;
+/** @type {number} */
+let rafID;
+
 function render() {
   rafID = requestAnimationFrame(render);
 
@@ -48,9 +85,9 @@ function render() {
   ctx.strokeStyle = WHITE;
   ctx.fillStyle = WHITE;
 
-  ctx.lineWidth = c.getValue("thickness");
+  ctx.lineWidth = c.getNumberValue("thickness");
 
-  if (c.getValue("line")) {
+  if (c.getBooleanValue("line")) {
     ctx.beginPath();
     ctx.moveTo(0, HEIGHT / 2);
     data.slice(0, -2).forEach(([x, y], i) => {
@@ -72,6 +109,10 @@ function render() {
   }
 }
 
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {MidiControl.MidiControl} controls
+ */
 function start(canvas, controls) {
   init(canvas, controls);
   render();
@@ -79,7 +120,7 @@ function start(canvas, controls) {
 
 function stop() {
   cancelAnimationFrame(rafID);
-  c.unloadScheme(NAME);
+  c.deactivateBinding(NAME);
 }
 
 export default { start, stop };

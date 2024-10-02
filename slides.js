@@ -20,6 +20,7 @@ await initControls();
 
 customElements.define("canvas-slide", CanvasSlide);
 
+// @ts-ignore Types aren't defined properly in reveal.js
 deck.on("slidechanged", function ({ previousSlide, currentSlide }) {
   if (currentSlide.classList.contains("demo")) {
     let canvasSlide = currentSlide.querySelector("canvas-slide");
