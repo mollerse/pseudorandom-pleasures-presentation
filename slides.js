@@ -32,3 +32,17 @@ deck.on("slidechanged", function ({ previousSlide, currentSlide }) {
     canvasSlide.stop();
   }
 });
+
+// Set a scale based on available width
+function scale() {
+  let baseWidth = 1920;
+
+  let { width } = document.body.getBoundingClientRect();
+
+  let scale = width / baseWidth;
+
+  document.documentElement.style.setProperty("--scale", `${scale}`);
+}
+
+scale();
+window.addEventListener("resize", scale);
