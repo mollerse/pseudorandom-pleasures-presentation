@@ -129,6 +129,10 @@
         font-size: 35%;
       }
 
+      .center p.stand-alone {
+        max-width: 60%;
+      }
+
       .standard pre {
         width: 100% !important;
       }
@@ -158,6 +162,12 @@
         margin-top: 0 !important;
       }
 
+      .standard img.center {
+        margin: 0 auto;
+        display: block;
+        width: min(350px, 25vw);
+      }
+
       .demo canvas-slide,
       .demo canvas {
         width: 100%;
@@ -174,73 +184,123 @@
         <!-- Intro -->
         <section class="center">
           <h1>Pseudorandom Pleasures</h1>
-          <p class="subtitle">— eller hvordan temme tilfeldighet</p>
+          <p class="subtitle">— or how to wrangle chaos</p>
           <p class="small">Stian Veum Møllersen / @mollerse</p>
-          <p class="small">Fagklynge Utviklings Minikonferanse 2024</p>
+          <p class="small">NDC Oslo 2025</p>
+        </section>
+        <section class="center">
+          <div><h2>Generative Systems</h2></div>
         </section>
         <section class="standard">
-          <h2>Generative Systemer</h2>
+          <h2>Generative Systems</h2>
+          <div>
+            <p>Generative systems are systems that generate something based on a set of rules.</p>
+            <p class="fragment">What make a generative system interesting is what it produces.</p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Generative Systems</h2>
           <div>
             <p>
-              Generative systemer er konstruksjoner som produserer et resultat basert på et sett med
-              regler.
+              Any (interesting) system produces something, so what makes generative systems special?
             </p>
             <p class="fragment">
-              Kombinatoriske eksplosjoner gir kompleks og utforutsigbar output, selv med relativt
-              enkle regler.
+              The defining property of a generative system is that it uses simple rules to produce
+              complex outputs.
             </p>
-          </div>
-        </section>
-        <section class="standard">
-          <h2>Generative systemer</h2>
-          <div>
-            <img width="200px" src="./assets/latinsquare.png" alt="" />
-            <p class="fragment">Et <code>3x3</code> system har <code>12</code> mulige løsninger.</p>
-            <p class="fragment">
-              Et <code>9x9</code> system har
-              <code>5 524 751 496 156 892 842 531 225 600</code> løsninger.
-            </p>
-            <p class="fragment">
-              Og hvis du introduserer sudoku-regler får du
-              <code>6 670 903 752 021 072 936 960</code> løsninger.
-            </p>
-            <p class="fragment">(ca <code>800 000</code> ganger færre)</p>
-          </div>
-        </section>
-        <section class="standard">
-          <h2>Generativ Grafikk</h2>
-          <div>
-            <p>Generativ grafikk, eller «procedural graphics», er en type generativt system.</p>
-            <p class="fragment">Brukes i alt fra spill, film og grafikk til 3D-printing og lyd.</p>
-          </div>
-        </section>
-        <section class="demo">
-          <canvas-slide data-demo="randomline"></canvas-slide>
-        </section>
-        <section class="standard">
-          <h2>Tilfeldighet</h2>
-          <div>
-            <p>
-              En fin måte å oppnå kombinatorisk eksplosjon. Mulige utfall av et generativt system
-              basert på tilfeldighet er tilnærmet uendelig.
-            </p>
-            <p class="fragment">Det er bare et problem.</p>
           </div>
         </section>
         <section class="center">
           <div>
-            <p class="stand-alone">Menesker liker generelt ikke ting som er helt tilfeldige.</p>
+            <h2>Combinatorics</h2>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Combinatorics</h2>
+          <div>
+            <p>The study of counting.</p>
+            <p class="fragment">Can sometimes lead to explosions.</p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Combinatorial Explosions</h2>
+          <div>
+            <p>
+              A combinatorial explosion describes the way a system with a limited input space has a
+              solution space that grows exponentially.
+            </p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Combinatorial Explosions</h2>
+          <div>
+            <img class="center" src="./assets/latinsquare.png" alt="" />
+            <p class="fragment">
+              A <code>3x3</code> system has <code>12</code> possible solutions.
+            </p>
+            <p class="fragment">
+              <code>9x9 => 5,524,751,496,156,892,842,531,225,600</code>
+            </p>
+            <p class="fragment">
+              Even if you limit valid solutions with Sudoku-rules you end up with
+              <code>6,670,903,752,021,072,936,960</code> solutions.
+            </p>
+          </div>
+        </section>
+        <section class="center">
+          <div>
+            <h2>Randomness</h2>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Randomness</h2>
+          <div>
+            <p>Randomness is another source of simple input producing complex output.</p>
+            <p class="fragment">
+              You don't even need input, you can just yank entropy out of the void!
+            </p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Randomness</h2>
+          <div>
+            <p>Perfect for a generative system, right?</p>
+            <p class="fragment">
+              You would think so, but randomness has the property of being chaotic or unpredictable.
+            </p>
           </div>
         </section>
         <section class="demo">
-          <canvas-slide data-demo="randomline"></canvas-slide>
+          <canvas-slide data-demo="r-vs-pr"></canvas-slide>
+        </section>
+        <section class="center">
+          <div>
+            <p class="stand-alone">
+              People generally prefer things that are not completely random.
+            </p>
+          </div>
         </section>
         <section class="standard">
           <h2>Pseudorandom</h2>
           <div>
             <p>
-              Det finnes spesialkonstruerte funksjoner for å generere visuelt behagelig, men likevel
-              tilfeldig støy: Pseudorandom Number Generators (PRNG).
+              People have created ways to generate visually pleasing, but still sufficiently random,
+              randomness: Pseudorandom Number Generators (PRNG).
+            </p>
+            <p class="fragment">
+              PRNGs lie somewhere between a combinatorial system and pure random chaos.
+            </p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Pseudorandom</h2>
+          <div>
+            <p>
+              You have output that behaves in predictable ways for a given input, like a
+              combinatorial system.
+            </p>
+            <p class="fragment">
+              But the set of valid inputs and outputs are unbounded, like randomness.
             </p>
           </div>
         </section>
@@ -251,12 +311,12 @@
           <h2>Ken Perlin</h2>
           <div>
             <p>
-              Opphavsmannen til den mest kjente metoden for pseudorandom innen grafikk: Perlin
-              Noise.
+              The inventor of the most famous function for pseudorandom noise for use in graphics:
+              Perlin Noise.
             </p>
             <p class="fragment">
-              Oppfunnet i 1982 til bruk i filmen Tron, som han også vant en Technical Achievement
-              Oscar for i 1997.
+              Invented in 1982 for use in the movie Tron. For which Ken Perlin in 1997 won a
+              Technical Achievement Oscar.
             </p>
           </div>
         </section>
@@ -264,10 +324,20 @@
           <h2>Simplex Noise</h2>
           <div>
             <p>
-              Arvtageren til Perlin Noise. Samme prinsipp, bare kjappere og med færre visuelle
-              artefakter.
+              This is the heir to Perlin Noise. Same principle, only more performant and with fewer
+              visual artefacts than it's predecessor.
             </p>
-            <p class="fragment">Oppfunnet i 2001 av Ken Perlin.</p>
+            <p class="fragment">Invented in 2001 by Ken Perlin.</p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>Gradient Noise</h2>
+          <div>
+            <p>The principle behind Perlin and Simplex noise is called gradient noise.</p>
+            <p class="fragment">
+              It's defining characteristinc is that small change in input leads to a small change in
+              output.
+            </p>
           </div>
         </section>
         <section class="demo">
@@ -276,22 +346,43 @@
         <section class="standard">
           <h2>Gradient Noise</h2>
           <div>
-            <p>Prinsippet bak Perlin og Simplex noise kalles gjerne gradient noise.</p>
-            <p class="fragment">Generaliserer utrolig bra til flere dimensjoner.</p>
+            <p>
+              A very cool property of gradient noise is how it generalizes to higher dimensions.
+            </p>
+            <p class="fragment">
+              So you can sample values that adhere to the same rules along multiple dimensions.
+            </p>
           </div>
+        </section>
+        <section class="standard">
+          <h2>Gradient Noise</h2>
+          <div>
+            <p>
+              Technically the PRNG, or noise, function produces a value in
+              <code>[-1, 1]</code> given an input.
+            </p>
+            <p class="fragment">
+              When talking higher dimensional noise we talk about the input to the noise function.
+            </p>
+            <p class="fragment">
+              <code>noise1D(x) => n</code><br />
+              <code>noise2D(x, y) => n</code><br />
+              <code>noise3D(x, y, z) => n</code>
+            </p>
+          </div>
+        </section>
+        <section class="demo">
+          <canvas-slide data-demo="1d-strip"></canvas-slide>
         </section>
         <section class="demo">
           <canvas-slide data-demo="2d"></canvas-slide>
         </section>
         <section class="standard">
-          <h2>Egenskaper</h2>
+          <h2>Combining noise</h2>
           <div>
             <p>
-              Dette kan brukes til utrolig mange ting. Fordi vi får verdier i
-              <code>[-1, 1]</code> kan det mappes til nesten hva som helst.
-            </p>
-            <p class="fragment">
-              Og fordi verdiene er kontinuerlige kan vi låne en haug med triks fra additiv syntese.
+              We can even borrow tricks from additive synthesis to combine noise functions that can
+              produce even more intresting noise.
             </p>
           </div>
         </section>
@@ -302,15 +393,16 @@
           <canvas-slide data-demo="simplexoctaves2d"></canvas-slide>
         </section>
         <section class="standard">
-          <h2>Eksperiment</h2>
+          <h2>Experiment</h2>
           <div>
             <p>
-              Siden vi har en måte å lage gøyale linjer, så burde vi jo gjøre noe kreativt med dem.
+              Because we have a way to paint happy little lines, we should do something creative
+              with them.
             </p>
-            <p class="fragment no-margin">Noe enkelt →</p>
-            <p class="fragment no-margin">Parametriser →</p>
-            <p class="fragment no-margin">Multipliser →</p>
-            <p class="fragment no-margin">Animer</p>
+            <p class="fragment no-margin">Something simple →</p>
+            <p class="fragment no-margin">Parameterize →</p>
+            <p class="fragment no-margin">Multiply →</p>
+            <p class="fragment no-margin">Animate</p>
           </div>
         </section>
         <section class="demo">
@@ -319,15 +411,14 @@
         <section class="center">
           <h2>Fin.</h2>
           <div>
-            <p>Takk for at dere hørte på!</p>
+            <p>Thank you for listening!</p>
             <br />
             <p class="small">Stian Veum Møllersen / @mollerse</p>
             <p class="small">
-              slides:
-              <a
-                href="https://mollerse.github.io/pseudorandom-pleasures-presentation/dist/minikonferanse2024/index.html"
-                >github/mollerse/pseudorandom-pleasures-presentation</a
-              >
+              slides & code:
+              <a href="https://github.com/mollerse/pseudorandom-pleasures-presentation">
+                github/mollerse/pseudorandom-pleasures-presentation
+              </a>
             </p>
           </div>
         </section>

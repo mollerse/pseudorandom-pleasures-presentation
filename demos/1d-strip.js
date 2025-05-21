@@ -8,7 +8,7 @@ let WIDTH;
 /** @type {number} */
 let HEIGHT;
 
-const NAME = "2D";
+const NAME = "1D strip";
 
 let noise3d = createNoise3D();
 
@@ -48,53 +48,21 @@ function initControls(controls) {
       },
     )
       .addNumberValue(
-        "xoff",
-        { initial: 0, min: 0, max: 2500, step: 1 },
+        "numBands",
+        { initial: 1, min: 1, max: 256, step: 1 },
         {
-          keyId: KNOBS[1][2],
+          keyId: KNOBS[2][1],
           messageType: MESSAGES[TEMPLATES.user].knob,
         },
       )
       .addNumberValue(
-        "yoff",
-        { initial: 0, min: 0, max: 2500, step: 1 },
+        "numCells",
+        { initial: 10, min: 10, max: 100, step: 10 },
         {
-          keyId: KNOBS[1][3],
+          keyId: KNOBS[2][2],
           messageType: MESSAGES[TEMPLATES.user].knob,
         },
       )
-      .addNumberValue(
-        "zoff",
-        { initial: 0, min: 0, max: 100, step: 1 },
-        {
-          keyId: KNOBS[1][4],
-          messageType: MESSAGES[TEMPLATES.user].knob,
-        },
-      )
-      // .addNumberValue(
-      //   "deltax",
-      //   { initial: 0, min: -10, max: 10, step: 0.1 },
-      //   {
-      //     keyId: KNOBS[1][5],
-      //     messageType: MESSAGES[TEMPLATES.user].knob,
-      //   },
-      // )
-      // .addNumberValue(
-      //   "deltay",
-      //   { initial: 0, min: -10, max: 10, step: 0.1 },
-      //   {
-      //     keyId: KNOBS[1][6],
-      //     messageType: MESSAGES[TEMPLATES.user].knob,
-      //   },
-      // )
-      // .addNumberValue(
-      //   "deltaz",
-      //   { initial: 0, min: -10, max: 10, step: 0.1 },
-      //   {
-      //     keyId: KNOBS[1][6],
-      //     messageType: MESSAGES[TEMPLATES.user].knob,
-      //   },
-      // )
 
       .addBooleanValue(
         "regen",
@@ -132,21 +100,18 @@ function render(t = 0) {
   ctx.fillStyle = BLACK;
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-  let numCellsX = 64 * 2;
+  let numCellsX = c.getNumberValue("numCells");
   let cellW = WIDTH / numCellsX;
   let cellH = cellW;
-  let numCellsY = Math.floor(HEIGHT / cellH);
+  let numCellsY = c.getNumberValue("numBands");
 
   for (let y = 0; y < numCellsY; y++) {
     let penY = y * cellH;
     for (let x = 0; x < numCellsX; x++) {
+      let idx = y * numCellsY + x;
       let penX = x * cellW;
 
-      let n = noise3d(
-        (x + c.getNumberValue("xoff")) * c.getNumberValue("samplerate"),
-        (y + c.getNumberValue("yoff")) * c.getNumberValue("samplerate"),
-        (0 + c.getNumberValue("zoff")) * c.getNumberValue("samplerate"),
-      );
+      let n = noise3d(idx * c.getNumberValue("samplerate"), 0, 0);
       let v = normalize(-1, 1, n);
       ctx.fillStyle = `hsl(${v * 360}, 100%, 50%)`;
       ctx.fillRect(penX, penY, cellW, cellH);

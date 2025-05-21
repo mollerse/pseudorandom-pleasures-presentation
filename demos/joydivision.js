@@ -150,8 +150,8 @@ function initControls(controls) {
 let currentPallette = 0;
 function cycleColor() {
   let pallette = [
-    [BLACK, WHITE],
     [WHITE, BLACK],
+    [BLACK, WHITE],
     [BLACK, "hotpink"],
     [WHITE, "aquamarine"],
     [BLACK, "cyan"],

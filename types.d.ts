@@ -11,6 +11,8 @@ type AvailableDemo =
   | "randomline"
   | "simplex"
   | "simplexoctaves"
-  | "simplexoctaves2d";
+  | "simplexoctaves2d"
+  | "r-vs-pr"
+  | "1d-strip";
 
 export { CanvasDemo, AvailableDemo };
