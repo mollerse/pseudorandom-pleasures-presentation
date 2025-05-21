@@ -65,7 +65,7 @@ function initControls(controls) {
       .addNumberValue(
         "thickness",
         { initial: 1, min: 1, max: 50, step: 1 },
-        { keyId: KNOBS[2][1], messageType: MESSAGES[TEMPLATES.user].knob },
+        { keyId: KNOBS[1][2], messageType: MESSAGES[TEMPLATES.user].knob },
       )
       .addNumberValue(
         "radius",
@@ -81,7 +81,7 @@ function randomize() {
 }
 
 function initData() {
-  let n = c.getNumberValue("dots");
+  let n = c.getNumberValue("dots") | 0;
   dataRandom = Array(n)
     .fill(1)
     .map((_, i) => [(i + 1) * (WIDTH / n), random2(0, HEIGHT / 2)]);
