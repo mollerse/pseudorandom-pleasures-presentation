@@ -12,6 +12,11 @@ build () {
   local PROJECT
   PROJECT="pseudorandom-pleasures-presentation"
 
+  # Delete old tagged build if it exists
+  if [ -d "$DIR/dist/$TAG" ]; then
+    rm -rf "$DIR/dist/$TAG"
+  fi
+
   # Move build to approperiate location under /dist
   rsync -a $DIR/build/ $DIR/dist/$TAG
 
