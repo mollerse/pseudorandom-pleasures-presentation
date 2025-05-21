@@ -50,7 +50,7 @@ function initControls(controls) {
       "octaves",
       { initial: 1, min: 1, max: 6, step: 1 },
       {
-        keyId: KNOBS[1][1],
+        keyId: KNOBS[1][6],
         messageType: MESSAGES[TEMPLATES.user].knob,
         onChange: initData,
       },
@@ -68,7 +68,7 @@ function initControls(controls) {
         "ampInit",
         { initial: 1, min: 1, max: 10, step: 0.01 },
         {
-          keyId: KNOBS[1][2],
+          keyId: KNOBS[1][7],
           messageType: MESSAGES[TEMPLATES.user].knob,
           onChange: initData,
         },
@@ -77,7 +77,7 @@ function initControls(controls) {
         "hzInit",
         { initial: 4, min: 1, max: 8, step: 1 },
         {
-          keyId: KNOBS[1][3],
+          keyId: KNOBS[1][8],
           messageType: MESSAGES[TEMPLATES.user].knob,
           onChange: initData,
         },
@@ -86,7 +86,7 @@ function initControls(controls) {
         "ampFalloff",
         { initial: 2, min: 1, max: 6, step: 0.1 },
         {
-          keyId: KNOBS[2][2],
+          keyId: KNOBS[2][7],
           messageType: MESSAGES[TEMPLATES.user].knob,
           onChange: initData,
         },
@@ -95,7 +95,7 @@ function initControls(controls) {
         "hzIncrease",
         { initial: 2, min: 1, max: 6, step: 0.1 },
         {
-          keyId: KNOBS[2][3],
+          keyId: KNOBS[2][8],
           messageType: MESSAGES[TEMPLATES.user].knob,
           onChange: initData,
         },
@@ -109,7 +109,7 @@ function randomize() {
 }
 
 function initData() {
-  let num = c.getNumberValue("octaves");
+  let num = c.getNumberValue("octaves") | 0;
   octaves = Array(num)
     .fill(1)
     .map(() => Array(N * M));
