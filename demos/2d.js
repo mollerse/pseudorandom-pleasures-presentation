@@ -1,5 +1,4 @@
 import { createNoise3D } from "simplex-noise";
-import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 import { BLACK } from "./util/colors.js";
 import { normalize } from "./util/tools.js";
 
@@ -43,32 +42,32 @@ function initControls(controls) {
       "samplerate",
       { initial: 0.001, min: 0.001, max: 0.1, step: 0.001 },
       {
-        keyId: KNOBS[1][1],
-        messageType: MESSAGES[TEMPLATES.user].knob,
+        keyId: 0x0,
+        messageType: 0xb0,
       },
     )
       .addNumberValue(
         "xoff",
-        { initial: 0, min: 0, max: 2500, step: 1 },
+        { initial: 0, min: 0, max: 200, step: 1 },
         {
-          keyId: KNOBS[1][2],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x10,
+          messageType: 0xb0,
         },
       )
       .addNumberValue(
         "yoff",
-        { initial: 0, min: 0, max: 2500, step: 1 },
+        { initial: 0, min: 0, max: 200, step: 1 },
         {
-          keyId: KNOBS[1][3],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x11,
+          messageType: 0xb0,
         },
       )
       .addNumberValue(
         "zoff",
         { initial: 0, min: 0, max: 100, step: 1 },
         {
-          keyId: KNOBS[1][4],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x12,
+          messageType: 0xb0,
         },
       )
       // .addNumberValue(
@@ -100,8 +99,9 @@ function initControls(controls) {
         "regen",
         { initial: false },
         {
-          keyId: PADS[1],
-          messageType: MESSAGES[TEMPLATES.user].padOff,
+          keyId: 0x40,
+          messageType: 0xb0,
+          value: 0,
           onChange: randomize,
         },
       );

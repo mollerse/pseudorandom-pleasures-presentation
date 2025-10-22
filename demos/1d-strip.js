@@ -1,5 +1,4 @@
 import { createNoise3D } from "simplex-noise";
-import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 import { BLACK } from "./util/colors.js";
 import { normalize } from "./util/tools.js";
 
@@ -43,35 +42,25 @@ function initControls(controls) {
       "samplerate",
       { initial: 0.001, min: 0.001, max: 0.1, step: 0.001 },
       {
-        keyId: KNOBS[1][1],
-        messageType: MESSAGES[TEMPLATES.user].knob,
+        keyId: 0x0,
+        messageType: 0xb0,
       },
     )
       .addNumberValue(
         "numBands",
         { initial: 1, min: 1, max: 256, step: 1 },
-        {
-          keyId: KNOBS[2][1],
-          messageType: MESSAGES[TEMPLATES.user].knob,
-        },
+        { keyId: 0x1, messageType: 0xb0 },
       )
       .addNumberValue(
         "numCells",
         { initial: 10, min: 10, max: 100, step: 10 },
-        {
-          keyId: KNOBS[2][2],
-          messageType: MESSAGES[TEMPLATES.user].knob,
-        },
+        { keyId: 0x2, messageType: 0xb0 },
       )
 
       .addBooleanValue(
         "regen",
         { initial: false },
-        {
-          keyId: PADS[1],
-          messageType: MESSAGES[TEMPLATES.user].padOff,
-          onChange: randomize,
-        },
+        { keyId: 0x40, messageType: 0xb0, value: 0, onChange: randomize },
       );
   }
 }

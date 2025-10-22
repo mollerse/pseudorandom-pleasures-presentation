@@ -1,5 +1,4 @@
 import { createNoise2D } from "simplex-noise";
-import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 
 import { BLACK, WHITE } from "./util/colors.js";
 
@@ -46,8 +45,8 @@ function initControls(controls) {
       "samplerate",
       { initial: 0.002, min: 0.001, max: 0.01, step: 0.0001 },
       {
-        keyId: KNOBS[1][1],
-        messageType: MESSAGES[TEMPLATES.user].knob,
+        keyId: 0x1,
+        messageType: 0xb0,
         onChange: initData,
       },
     )
@@ -55,8 +54,8 @@ function initControls(controls) {
         "xoff",
         { initial: 0, min: 0, max: 2500, step: 10 },
         {
-          keyId: KNOBS[1][2],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x10,
+          messageType: 0xb0,
           onChange: initData,
         },
       )
@@ -64,34 +63,28 @@ function initControls(controls) {
         "yoff",
         { initial: 0, min: 0, max: 1, step: 0.001 },
         {
-          keyId: KNOBS[1][3],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x11,
+          messageType: 0xb0,
           onChange: initData,
         },
       )
       .addNumberValue(
         "thickness",
         { initial: 5, min: 0.5, max: 50, step: 0.5 },
-        {
-          keyId: KNOBS[2][1],
-          messageType: MESSAGES[TEMPLATES.user].knob,
-        },
+        { keyId: 0x0, messageType: 0xb0 },
       )
       .addBooleanValue(
         "regen",
         { initial: false },
-        {
-          keyId: PADS[1],
-          messageType: MESSAGES[TEMPLATES.user].padOff,
-          onChange: randomize,
-        },
+        { keyId: 0x40, messageType: 0xb0, value: 0, onChange: randomize },
       )
       .addBooleanValue(
         "move",
         { initial: false },
         {
-          keyId: PADS[2],
-          messageType: MESSAGES[TEMPLATES.user].padOff,
+          keyId: 0x30,
+          messageType: 0xb0,
+          value: 0,
         },
       );
   }

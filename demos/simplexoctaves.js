@@ -1,5 +1,4 @@
 import { createNoise2D } from "simplex-noise";
-import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
 
 import { BLACK, WHITE } from "./util/colors.js";
 
@@ -46,8 +45,8 @@ function initControls(controls) {
       "octaves",
       { initial: 1, min: 1, max: 6, step: 1 },
       {
-        keyId: KNOBS[1][6],
-        messageType: MESSAGES[TEMPLATES.user].knob,
+        keyId: 0x10,
+        messageType: 0xb0,
         onChange: initData,
       },
     )
@@ -55,8 +54,9 @@ function initControls(controls) {
         "regen",
         { initial: true },
         {
-          keyId: PADS[1],
-          messageType: MESSAGES[TEMPLATES.user].padOff,
+          keyId: 0x40,
+          messageType: 0xb0,
+          value: 0,
           onChange: randomize,
         },
       )
@@ -64,8 +64,8 @@ function initControls(controls) {
         "ampInit",
         { initial: HEIGHT / 2, min: HEIGHT / 10, max: HEIGHT, step: HEIGHT / 10 },
         {
-          keyId: KNOBS[1][7],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x11,
+          messageType: 0xb0,
           onChange: initData,
         },
       )
@@ -73,8 +73,8 @@ function initControls(controls) {
         "hzInit",
         { initial: 4, min: 1, max: 8, step: 1 },
         {
-          keyId: KNOBS[1][8],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x12,
+          messageType: 0xb0,
           onChange: initData,
         },
       )
@@ -82,8 +82,8 @@ function initControls(controls) {
         "ampFalloff",
         { initial: 2, min: 1, max: 6, step: 0.1 },
         {
-          keyId: KNOBS[2][7],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x1,
+          messageType: 0xb0,
           onChange: initData,
         },
       )
@@ -91,8 +91,8 @@ function initControls(controls) {
         "hzIncrease",
         { initial: 2, min: 1, max: 6, step: 0.1 },
         {
-          keyId: KNOBS[2][8],
-          messageType: MESSAGES[TEMPLATES.user].knob,
+          keyId: 0x2,
+          messageType: 0xb0,
           onChange: initData,
         },
       );

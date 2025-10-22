@@ -1,5 +1,3 @@
-import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
-
 import { BLACK, WHITE } from "./util/colors.js";
 import { random2 } from "./util/random.js";
 import { createNoise2D } from "simplex-noise";
@@ -47,30 +45,26 @@ function initControls(controls) {
       "dots",
       { initial: 5, min: 2, max: 100, step: 1 },
       {
-        keyId: KNOBS[1][1],
-        messageType: MESSAGES[TEMPLATES.user].knob,
+        keyId: 0x10,
+        messageType: 0xb0,
         onChange: initData,
       },
     )
-      .addBooleanValue(
-        "line",
-        { initial: true },
-        { keyId: PADS[1], messageType: MESSAGES[TEMPLATES.user].padOff },
-      )
+      .addBooleanValue("line", { initial: true }, { keyId: 0x20, messageType: 0xb0, value: 0 })
       .addBooleanValue(
         "regen",
         { initial: false },
-        { keyId: PADS[2], messageType: MESSAGES[TEMPLATES.user].padOff, onChange: randomize },
+        { keyId: 0x40, messageType: 0xb0, value: 0, onChange: randomize },
       )
       .addNumberValue(
         "thickness",
         { initial: 1, min: 1, max: 50, step: 1 },
-        { keyId: KNOBS[1][2], messageType: MESSAGES[TEMPLATES.user].knob },
+        { keyId: 0x0, messageType: 0xb0 },
       )
       .addNumberValue(
         "radius",
         { initial: 1, min: 1, max: 50, step: 1 },
-        { keyId: KNOBS[2][2], messageType: MESSAGES[TEMPLATES.user].knob },
+        { keyId: 0x1, messageType: 0xb0 },
       );
   }
 }
