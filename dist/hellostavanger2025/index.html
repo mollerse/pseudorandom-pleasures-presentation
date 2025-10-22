@@ -1113,6 +1113,27 @@ p {
               We can even borrow tricks from additive synthesis to combine noise functions that can
               produce even more intresting noise.
             </p>
+            <p class="fragment">Fractional Brownian Motion (fBM).</p>
+          </div>
+        </section>
+        <section class="standard">
+          <h2>FBM</h2>
+          <div>
+            <pre><code data-trim data-line-numbers class="language-js">
+// Initial values
+let amp = 0.5;
+let hz = 1;
+
+let octaves = 5;
+let hzIncrease = 2;
+let ampFalloff = 2;
+
+for (let i = 0; i &lt; octaves; i++) {
+  y += amp * noise1D(hz * x);
+  hz = hz * hzIncrease;
+  amp = amp / ampFalloff;
+}
+            </code></pre>
           </div>
         </section>
         <section class="demo">
