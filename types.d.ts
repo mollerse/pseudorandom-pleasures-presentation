@@ -13,6 +13,7 @@ type AvailableDemo =
   | "simplexoctaves"
   | "simplexoctaves2d"
   | "r-vs-pr"
+  | "r-vs-sine"
   | "1d-strip";
 
 export { CanvasDemo, AvailableDemo };

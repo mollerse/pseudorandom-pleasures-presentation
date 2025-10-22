@@ -23,8 +23,9 @@ npm start
 
 ## View online
 
-Most recent version: [NDC Oslo 2025[EN]](https://mollerse.github.io/pseudorandom-pleasures-presentation/dist/ndcoslo2025/index.html)
+Most recent version: [\#HelloStavanger 2025[EN]](https://mollerse.github.io/pseudorandom-pleasures-presentation/dist/hellostavanger2025/index.html)
 
 Older versions:
 
+- [NDC Oslo 2025[EN]](https://mollerse.github.io/pseudorandom-pleasures-presentation/dist/ndcoslo2025/index.html)
 - [Fagklynge Utviklings Minikonferanse 2024[NO]](https://mollerse.github.io/pseudorandom-pleasures-presentation/dist/minikonferanse2024/index.html)

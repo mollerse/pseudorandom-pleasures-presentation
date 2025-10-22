@@ -6,7 +6,7 @@ import { createNoise2D } from "simplex-noise";
 let WIDTH;
 /** @type {number} */
 let HEIGHT;
-const NAME = "Random vs Pseudorandom";
+const NAME = "Random vs Sine";
 
 /** @type {MidiControl.MidiControl} */
 let c;
@@ -15,9 +15,8 @@ let ctx;
 /** @type {number[][]} */
 let dataRandom;
 /** @type {number[][]} */
-let dataPseudorandom;
+let dataSine;
 
-let noise2d = createNoise2D();
 /**
  * @param {HTMLCanvasElement} canvas
  * @param {MidiControl.MidiControl} controls
@@ -70,8 +69,15 @@ function initControls(controls) {
 }
 
 function randomize() {
-  noise2d = createNoise2D();
   initData();
+}
+
+/**
+ * @param {number} n
+ * @returns {number}
+ */
+function sineFunction(n) {
+  return 0.7 * Math.sin(2 * n) + 0.2 * Math.sin(n * 10) + 0.1 * Math.sin(n * 25);
 }
 
 function initData() {
@@ -80,9 +86,12 @@ function initData() {
     .fill(1)
     .map((_, i) => [(i + 1) * (WIDTH / n), random2(0, HEIGHT / 2)]);
 
-  dataPseudorandom = Array(n)
+  dataSine = Array(n)
     .fill(1)
-    .map((_, i) => [(i + 1) * (WIDTH / n), 3 * (HEIGHT / 4) + (HEIGHT / 4) * noise2d(0.05 * i, 0)]);
+    .map((_, i) => [
+      (i + 1) * (WIDTH / n),
+      3 * (HEIGHT / 4) + (HEIGHT / 4) * sineFunction(0.05 * i),
+    ]);
 }
 
 /** @type {number} */
@@ -116,28 +125,23 @@ function renderRandomDots() {
   });
 }
 
-function renderPseudorandomLine() {
+function renderSineLine() {
   ctx.beginPath();
   ctx.moveTo(0, 3 * (HEIGHT / 4));
-  dataPseudorandom.slice(0, -2).forEach(([x, y], i) => {
-    let cpx = (x + dataPseudorandom[i + 1][0]) / 2;
-    let cpy = (y + dataPseudorandom[i + 1][1]) / 2;
+  dataSine.slice(0, -2).forEach(([x, y], i) => {
+    let cpx = (x + dataSine[i + 1][0]) / 2;
+    let cpy = (y + dataSine[i + 1][1]) / 2;
 
     ctx.quadraticCurveTo(x, y, cpx, cpy);
   });
-  let n = dataPseudorandom.length - 2;
-  ctx.quadraticCurveTo(
-    dataPseudorandom[n][0],
-    dataPseudorandom[n][1],
-    dataPseudorandom[n + 1][0],
-    dataPseudorandom[n + 1][1],
-  );
+  let n = dataSine.length - 2;
+  ctx.quadraticCurveTo(dataSine[n][0], dataSine[n][1], dataSine[n + 1][0], dataSine[n + 1][1]);
 
   ctx.stroke();
 }
 
-function renderPseudorandomDots() {
-  dataPseudorandom.forEach(([x, y]) => {
+function renderSineDots() {
+  dataSine.forEach(([x, y]) => {
     ctx.beginPath();
     ctx.arc(x, y, c.getNumberValue("radius"), 0, 2 * Math.PI, true);
     ctx.fill();
@@ -168,14 +172,14 @@ function render() {
 
   ctx.textAlign = "center";
   ctx.textBaseline = "bottom";
-  ctx.fillText("Pseudorandom", WIDTH / 2, HEIGHT);
+  ctx.fillText("Sine", WIDTH / 2, HEIGHT);
 
   if (c.getBooleanValue("line")) {
     renderRandomLine();
-    renderPseudorandomLine();
+    renderSineLine();
   } else {
     renderRandomDots();
-    renderPseudorandomDots();
+    renderSineDots();
   }
 }
 

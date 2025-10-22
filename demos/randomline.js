@@ -1,7 +1,6 @@
-import { KNOBS, MESSAGES, TEMPLATES, PADS } from "@mollerse/midi-control/devices/launch-control.js";
-
 import { BLACK, WHITE } from "./util/colors.js";
 import { random2 } from "./util/random.js";
+import { shuffle } from "./util/shuffle.js";
 
 /** @type {number} */
 let WIDTH;
@@ -43,34 +42,32 @@ function initControls(controls) {
       "dots",
       { initial: 5, min: 2, max: 100, step: 1 },
       {
-        keyId: KNOBS[1][1],
-        messageType: MESSAGES[TEMPLATES.user].knob,
-        onChange: initData,
+        keyId: 0x10,
+        messageType: 0xb0,
+        // onChange: initData,
       },
     )
-      .addBooleanValue(
-        "line",
-        { initial: true },
-        { keyId: PADS[1], messageType: MESSAGES[TEMPLATES.user].padOff },
-      )
+      .addBooleanValue("line", { initial: false }, { keyId: 0x20, messageType: 0xb0, value: 0 })
       .addBooleanValue(
         "regen",
         { initial: false },
-        { keyId: PADS[2], messageType: MESSAGES[TEMPLATES.user].padOff, onChange: initData },
+        { keyId: 0x40, messageType: 0xb0, value: 0, onChange: initData },
       )
       .addNumberValue(
         "thickness",
         { initial: 1, min: 1, max: 50, step: 1 },
-        { keyId: KNOBS[2][1], messageType: MESSAGES[TEMPLATES.user].knob },
+        { keyId: 0x0, messageType: 0xb0 },
       );
   }
 }
 
 function initData() {
-  let n = c.getNumberValue("dots");
+  let n = 100;
   data = Array(n)
     .fill(1)
     .map((_, i) => [(i + 1) * (WIDTH / n), HEIGHT / 2 + random2(-HEIGHT / 2, HEIGHT / 2)]);
+
+  data = shuffle(data);
 }
 
 /** @type {number} */
@@ -87,21 +84,25 @@ function render() {
 
   ctx.lineWidth = c.getNumberValue("thickness");
 
+  let n = c.getNumberValue("dots") | 0;
+  let subset = data.slice(0, n);
+
   if (c.getBooleanValue("line")) {
+    subset.sort((a, b) => a[0] - b[0]);
     ctx.beginPath();
     ctx.moveTo(0, HEIGHT / 2);
-    data.slice(0, -2).forEach(([x, y], i) => {
-      let cpx = (x + data[i + 1][0]) / 2;
-      let cpy = (y + data[i + 1][1]) / 2;
+    subset.slice(0, -2).forEach(([x, y], i) => {
+      let cpx = (x + subset[i + 1][0]) / 2;
+      let cpy = (y + subset[i + 1][1]) / 2;
 
       ctx.quadraticCurveTo(x, y, cpx, cpy);
     });
-    let n = data.length - 2;
-    ctx.quadraticCurveTo(data[n][0], data[n][1], data[n + 1][0], data[n + 1][1]);
+    let n = subset.length - 2;
+    ctx.quadraticCurveTo(subset[n][0], subset[n][1], subset[n + 1][0], subset[n + 1][1]);
 
     ctx.stroke();
   } else {
-    data.forEach(([x, y]) => {
+    subset.forEach(([x, y]) => {
       ctx.beginPath();
       ctx.arc(x, y, 10, 0, 2 * Math.PI, true);
       ctx.fill();
