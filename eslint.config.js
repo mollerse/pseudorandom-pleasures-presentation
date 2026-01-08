@@ -4,4 +4,5 @@ import pluginJs from "@eslint/js";
 export default [
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   pluginJs.configs.recommended,
+  { ignores: ["dist", "build"] },
 ];

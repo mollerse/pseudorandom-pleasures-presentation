@@ -1,5 +1,5 @@
 import Reveal from "reveal.js";
-import RevealHighlight from "reveal.js/plugin/highlight/highlight.js";
+import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
 import { init as initControls } from "./lib/controls.js";
 import { CanvasSlide } from "./lib/canvas-slide.js";
 

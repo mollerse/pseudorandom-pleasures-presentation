@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "eslint .",
+    "format": "prettier './*.js' demos lib -w",
+    "typecheck": "tsc -p ./jsconfig.json --noEmit"
   },
   "keywords": [
     "presentation"
@@ -14,17 +17,18 @@
   "author": "Stian Møllersen <stian.moellersen@gmail.com>",
   "license": "CC-BY-NC-SA-4.0",
   "dependencies": {
-    "@mollerse/midi-control": "^2.2.0",
+    "@mollerse/midi-control": "^2.3.0",
     "alea": "^1.0.1",
     "reveal.js": "5.1.0",
     "simplex-noise": "^4.0.3"
   },
   "devDependencies": {
     "@eslint/js": "9.11.1",
-    "@types/reveal.js": "^5.0.3",
+    "@types/reveal.js": "^5.2.2",
     "eslint": "9.11.1",
     "globals": "15.9.0",
     "prettier": "3.3.3",
+    "typescript": "^5.9.3",
     "vite": "5.4.7"
   }
 }

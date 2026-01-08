@@ -2,13 +2,15 @@ import { BLACK, WHITE } from "./util/colors.js";
 import { random2 } from "./util/random.js";
 import { shuffle } from "./util/shuffle.js";
 
+/** @import {MidiControl} from '@mollerse/midi-control' */
+
 /** @type {number} */
 let WIDTH;
 /** @type {number} */
 let HEIGHT;
 const NAME = "Random Line";
 
-/** @type {MidiControl.MidiControl} */
+/** @type {MidiControl} */
 let c;
 /** @type {CanvasRenderingContext2D} */
 let ctx;
@@ -17,7 +19,7 @@ let data;
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {MidiControl.MidiControl} controls
+ * @param {MidiControl} controls
  */
 function init(canvas, controls) {
   WIDTH = canvas.width;
@@ -29,7 +31,7 @@ function init(canvas, controls) {
 }
 
 /**
- * @param {MidiControl.MidiControl} controls
+ * @param {MidiControl} controls
  */
 function initControls(controls) {
   c = controls;
@@ -112,7 +114,7 @@ function render() {
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {MidiControl.MidiControl} controls
+ * @param {MidiControl} controls
  */
 function start(canvas, controls) {
   init(canvas, controls);

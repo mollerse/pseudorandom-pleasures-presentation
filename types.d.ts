@@ -1,7 +1,7 @@
-import type midiControl from "@mollerse/midi-control";
+import { MidiControl } from "@mollerse/midi-control";
 
 type CanvasDemo = {
-  start: (canvas: HTMLCanvasElement, controls: Awaited<ReturnType<typeof midiControl>>) => void;
+  start: (canvas: HTMLCanvasElement, controls: MidiControl) => void;
   stop: () => void;
 };
 

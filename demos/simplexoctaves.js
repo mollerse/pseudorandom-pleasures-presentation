@@ -2,6 +2,8 @@ import { createNoise2D } from "simplex-noise";
 
 import { BLACK, WHITE } from "./util/colors.js";
 
+/** @import {MidiControl} from '@mollerse/midi-control' */
+
 /** @type {number} */
 let WIDTH;
 /** @type {number} */
@@ -10,7 +12,7 @@ const NAME = "Simplex Octaves";
 
 let noise2d = createNoise2D();
 
-/** @type {MidiControl.MidiControl} */
+/** @type {MidiControl} */
 let c;
 /** @type {CanvasRenderingContext2D} */
 let ctx;
@@ -21,7 +23,7 @@ let octaves;
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {MidiControl.MidiControl} controls
+ * @param {MidiControl} controls
  */
 function init(canvas, controls) {
   WIDTH = canvas.width;
@@ -33,7 +35,7 @@ function init(canvas, controls) {
 }
 
 /**
- * @param {MidiControl.MidiControl} controls
+ * @param {MidiControl} controls
  */
 function initControls(controls) {
   c = controls;
@@ -214,7 +216,7 @@ function render(t = 0) {
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {MidiControl.MidiControl} controls
+ * @param {MidiControl} controls
  */
 function start(canvas, controls) {
   init(canvas, controls);
